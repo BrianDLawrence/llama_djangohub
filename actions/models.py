@@ -4,7 +4,8 @@ from django.db import models
 
 class Actions(models.Model):
     name = models.CharField(max_length=200)
-    description = models.CharField(max_length=1024)
+    description = models.CharField(max_length=1024, blank=True, null=True)
+    prompt = models.TextField(default="")
 
 class Prompts(models.Model):
     name = models.CharField(max_length=200)

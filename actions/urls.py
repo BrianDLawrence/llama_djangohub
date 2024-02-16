@@ -12,4 +12,7 @@ urlpatterns = [
         'put':'update',
         'delete':'destroy'
     })),
+    path('send/<str:pk>', ActionsViewSet.as_view({
+        'post':'send'
+    })),
 ]

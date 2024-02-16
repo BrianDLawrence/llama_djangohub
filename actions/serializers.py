@@ -5,3 +5,9 @@ class ActionsSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Actions
         fields = '__all__'
+
+# FUTURE ADD SUPPORT FOR MULTIPLE PROMPTS 
+#class PromptsSerializer(serializers.ModelSerializer):
+#    class Meta:
+#        model = Prompts
+#        fields = '__all__'
