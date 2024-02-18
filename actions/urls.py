@@ -4,7 +4,7 @@ from actions.views import ActionsViewSet
 
 urlpatterns = [
     path('actions', ActionsViewSet.as_view({
-        'get':'list',
+        'get':'get_all',
         'post':'create'
     })),
     path('actions/<str:pk>', ActionsViewSet.as_view({

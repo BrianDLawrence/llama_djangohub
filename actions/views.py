@@ -1,4 +1,6 @@
-
+"""
+The ActionViewsSet
+"""
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Actions
@@ -6,17 +8,16 @@ from .serializers import ActionsSerializer
 from .producer import publish
 
 class ActionsViewSet(viewsets.ViewSet):
-    def list(self, request):
+    def get_all(self, request):
         actions = Actions.objects.all()
         serializer = ActionsSerializer(actions,many=True)
         return Response(serializer.data)
 
-    
     def create(self, request):
         serializer = ActionsSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)    
     
     def retrieve(self, request, pk=None):
         actions = Actions.objects.get(id=pk)
@@ -39,5 +40,3 @@ class ActionsViewSet(viewsets.ViewSet):
         actions = Actions.objects.get(id=pk)
         publish(actions.name, actions.prompt)
         return Response(status=status.HTTP_201_CREATED)
-
-    
