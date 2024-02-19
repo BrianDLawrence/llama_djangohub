@@ -1,3 +1,6 @@
+"""
+URL Patterns
+"""
 from django.urls import path
 
 from actions.views import ActionsViewSet

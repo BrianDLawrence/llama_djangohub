@@ -6,25 +6,31 @@ from rest_framework.response import Response
 from .models import Actions
 from .serializers import ActionsSerializer
 from .producer import publish
+# pylint: disable=no-member
 
 class ActionsViewSet(viewsets.ViewSet):
+    """ ViewSet for Actions """
     def get_all(self, request):
+        """ retrieve all actions as array of actions """
         actions = Actions.objects.all()
         serializer = ActionsSerializer(actions,many=True)
         return Response(serializer.data)
 
     def create(self, request):
+        """ create new action """
         serializer = ActionsSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return Response(serializer.data,status=status.HTTP_201_CREATED)    
-    
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+
     def retrieve(self, request, pk=None):
+        """ get action by id """
         actions = Actions.objects.get(id=pk)
         serializer = ActionsSerializer(actions)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
+        """ update action by id """
         actions = Actions.objects.get(id=pk)
         serializer = ActionsSerializer(instance=actions,data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -32,11 +38,13 @@ class ActionsViewSet(viewsets.ViewSet):
         return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
 
     def destroy(self, request, pk=None):
+        """ delete action by id """
         actions = Actions.objects.get(id=pk)
         actions.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
     def send(self, request, pk=None):
+        """ send action with id to messaging queue """
         actions = Actions.objects.get(id=pk)
-        publish(actions.name, actions.prompt)
+        publish(actions)
         return Response(status=status.HTTP_201_CREATED)
