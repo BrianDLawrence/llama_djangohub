@@ -7,6 +7,7 @@ from .models import Actions
 from .serializers import ActionsSerializer
 from .producer import publish
 # pylint: disable=no-member
+# pylint: disable=unused-argument
 
 class ActionsViewSet(viewsets.ViewSet):
     """ ViewSet for Actions """
