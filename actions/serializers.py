@@ -3,6 +3,7 @@ Serializer for translating our models to JSON
 """
 from rest_framework import serializers
 from .models import Actions
+# pylint: disable=too-few-public-methods
 
 class ActionsSerializer(serializers.ModelSerializer):
     """ Serializer for Actions """
