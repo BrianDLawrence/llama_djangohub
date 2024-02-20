@@ -1,19 +1,12 @@
-"""
-Tests to make sure our models are working as designed!
-"""
 from django.test import TestCase
 from django.core.exceptions import ValidationError
 from ..models import Actions, Prompts
-# Need to disable the following pylint
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
 # pylint: disable=no-member
 
 class ActionsModelTest(TestCase):
     def test_field_content(self):
         action = Actions.objects.create(name="Test Action",
                                          description="Test Description", prompt="Test Prompt")
-
         self.assertEqual(action.name, "Test Action")
         self.assertEqual(action.description, "Test Description")
         self.assertEqual(action.prompt, "Test Prompt")

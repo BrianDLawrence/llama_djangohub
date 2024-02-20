@@ -1,12 +1,7 @@
-"""
-Tests to make sure our views are working as designed!
-"""
 from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APITestCase
 from ..models import Actions
-# pylint: disable=missing-class-docstring
-# pylint: disable=missing-function-docstring
 # pylint: disable=no-member
 # pylint: disable=invalid-name
 
