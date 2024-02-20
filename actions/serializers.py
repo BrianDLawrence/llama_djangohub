@@ -6,4 +6,3 @@ class ActionsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Actions
         fields = '__all__'
-
