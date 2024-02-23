@@ -10,7 +10,7 @@ class ActionsViewSetTest(APITestCase):
     def setUpTestData(cls):
         # Setup initial data
         cls.action = Actions.objects.create(name="Test Action",
-                                            description="Test Description", prompt="Test Prompt")
+                                            description="Test Description", prompt="Test Prompt", success_criteria="New Success Criteria")
 
     def test_get_all_actions(self):
         url = '/api/actions'
@@ -20,7 +20,7 @@ class ActionsViewSetTest(APITestCase):
 
     def test_create_action(self):
         url = '/api/actions'
-        data = {"name": "New Action", "description": "New Description", "prompt": "New Prompt"}
+        data = {"name": "New Action", "description": "New Description", "prompt": "New Prompt", "success_criteria":"New Success Criteria"}
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Actions.objects.count(), 2)
@@ -30,6 +30,7 @@ class ActionsViewSetTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['name'], 'Test Action')
+        self.assertEqual(response.data['success_criteria'], 'New Success Criteria')
 
     def test_update_action(self):
         url = f'/api/actions/{self.action.id}'

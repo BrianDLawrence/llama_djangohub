@@ -6,16 +6,17 @@ from ..models import Actions, Prompts
 class ActionsModelTest(TestCase):
     def test_field_content(self):
         action = Actions.objects.create(name="Test Action",
-                                         description="Test Description", prompt="Test Prompt")
+                                         description="Test Description", prompt="Test Prompt", success_criteria="Test Success Criteria")
         self.assertEqual(action.name, "Test Action")
         self.assertEqual(action.description, "Test Description")
+        self.assertEqual(action.success_criteria, "Test Success Criteria")
         self.assertEqual(action.prompt, "Test Prompt")
         self.assertTrue(isinstance(action, Actions))
 
 class PromptsModelTest(TestCase):
     def test_field_content(self):
         action = Actions.objects.create(name="Test Action",
-                                         description="Test Description", prompt="Test Prompt")
+                                         description="Test Description", prompt="Test Prompt", success_criteria="Test Success Criteria")
         prompt = Prompts.objects.create(name="Test Prompt",
                                          description="Prompt Description", action=action)
 
@@ -27,7 +28,7 @@ class PromptsModelTest(TestCase):
 class ModelRelationshipTest(TestCase):
     def test_prompts_in_actions(self):
         action = Actions.objects.create(name="Action",
-                                         description="Action Description", prompt="Action Prompt")
+                                         description="Action Description", prompt="Action Prompt", success_criteria="Test Success Criteria")
         Prompts.objects.create(name="Prompt 1",
                                description="Description 1", action=action)
         Prompts.objects.create(name="Prompt 2",

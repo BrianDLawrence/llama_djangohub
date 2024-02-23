@@ -5,6 +5,7 @@ from django.db import models
 class Actions(models.Model):
     name = models.CharField(max_length=200)
     description = models.CharField(max_length=1024, blank=True, null=True)
+    success_criteria = models.TextField(default="")
     prompt = models.TextField(default="")
     def __str__ (self):
         return self.name
