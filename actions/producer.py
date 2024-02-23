@@ -16,6 +16,6 @@ def send_to_hub_channel(connection, actions):
     channel = connection.channel()
     print(actions)
     channel.basic_publish(exchange='',routing_key='hub',
-                          body=f"ACTION: {actions.name} PROMPT: {actions.prompt} SUCCESS CRITERIA: {actions.success_criteria}")
+                body=f"ACTION: {actions.name} PROMPT: {actions.prompt} SUCCESS CRITERIA: {actions.success_criteria}")
     print(f""""Sent message on channel hub with content: ACTION:
            {actions.name} PROMPT: {actions.prompt} SUCCESS CRITERIA: {actions.success_criteria}""")
