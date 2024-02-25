@@ -39,6 +39,7 @@ jobs:
         -e "DB_NAME=test_db" \
         -e "DB_USERNAME=postgres" \
         -e "DB_PASSWORD=postgres" \
+        -e "HUB_SECRET_KEY=django-insecure-%x6%mb3ia1n^6^d98css88+ilj3aem2_^@)y5_8zhr#^9c_&(0" \
         llama_hub python manage.py migrate
 
     - name: Run tests in the Django container
@@ -49,4 +50,5 @@ jobs:
         -e "DB_NAME=test_db" \
         -e "DB_USERNAME=postgres" \
         -e "DB_PASSWORD=postgres" \
+        -e "HUB_SECRET_KEY=django-insecure-%x6%mb3ia1n^6^d98css88+ilj3aem2_^@)y5_8zhr#^9c_&(0" \
         llama_hub python manage.py test
