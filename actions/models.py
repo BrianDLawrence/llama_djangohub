@@ -7,6 +7,7 @@ class Actions(models.Model):
     description = models.CharField(max_length=1024, blank=True, null=True)
     success_criteria = models.TextField(default="")
     prompt = models.TextField(default="")
+    created = models.DateTimeField(auto_now_add=True)
     def __str__ (self):
         return self.name
 

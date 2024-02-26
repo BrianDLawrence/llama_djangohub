@@ -11,6 +11,7 @@ class ActionsModelTest(TestCase):
         self.assertEqual(action.description, "Test Description")
         self.assertEqual(action.success_criteria, "Test Success Criteria")
         self.assertEqual(action.prompt, "Test Prompt")
+        self.assertIsNotNone(action.created)
         self.assertTrue(isinstance(action, Actions))
 
 class PromptsModelTest(TestCase):
