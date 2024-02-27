@@ -60,8 +60,9 @@ jobs:
         aws-region: us-east-1
     
     - name: Login to Amazon ECR
-      run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/l9x3a2s9
-    
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
     - name: Tag the Docker image
       run: docker tag llama_hub:latest public.ecr.aws/l9x3a2s9/llama_hub:latest
 
