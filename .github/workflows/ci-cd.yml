@@ -52,3 +52,18 @@ jobs:
         -e "DB_PASSWORD=postgres" \
         -e "HUB_SECRET_KEY=django-insecure-%x6%mb3ia1n^6^d98css88+ilj3aem2_^@)y5_8zhr#^9c_&(0" \
         llama_hub python manage.py test
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        role-to-assume: arn:aws:iam::523425745135:role/GithubForDockerImages
+        aws-region: us-east-1
+    
+    - name: Login to Amazon ECR
+      run: aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/l9x3a2s9
+    
+    - name: Tag the Docker image
+      run: docker tag llama_hub:latest public.ecr.aws/l9x3a2s9/llama_hub:latest
+
+    - name: Push the Docker image to Amazon ECR Public
+      run: docker push public.ecr.aws/l9x3a2s9/llama_hub:latest
