@@ -14,4 +14,7 @@ urlpatterns = [
     path('send/<str:pk>', ActionsViewSet.as_view({
         'post':'send'
     })),
+    path('get_amount_unanswered_messages', ActionsViewSet.as_view({
+        'get':'get_amount_unanswered_messages'
+    })),
 ]

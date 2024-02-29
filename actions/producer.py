@@ -12,10 +12,18 @@ def publish(actions):
     send_to_hub_channel(connection, actions)
     connection.close()
 
+def get_amount_unanswered_messages():
+    connection = pika.BlockingConnection(pika.URLParameters(amqp_url))
+    message_count = get_unanswered_messages_in_hub_channel(connection)
+    connection.close()
+    return message_count
+
 def send_to_hub_channel(connection, actions):
     channel = connection.channel()
-    print(actions)
     channel.basic_publish(exchange='',routing_key='hub',
                 body=f"ACTION: {actions.name} PROMPT: {actions.prompt} SUCCESS CRITERIA: {actions.success_criteria}")
-    print(f""""Sent message on channel hub with content: ACTION:
-           {actions.name} PROMPT: {actions.prompt} SUCCESS CRITERIA: {actions.success_criteria}""")
+
+def get_unanswered_messages_in_hub_channel(connection):
+    channel = connection.channel()
+    queue = channel.queue_declare(queue='hub', passive=True)
+    return queue.method.message_count

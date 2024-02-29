@@ -8,7 +8,6 @@ from ..models import Actions
 class ActionsViewSetTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        # Setup initial data
         cls.action = Actions.objects.create(name="Test Action", description="Test Description",
                                             prompt="Test Prompt", success_criteria="New Success Criteria")
 
@@ -56,3 +55,13 @@ class ActionsViewSetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         # Assert that 'publish' was called once with the correct arguments
         mock_publish.assert_called_once_with(self.action)
+
+    @patch('actions.views.get_amount_unanswered_messages')
+    def test_check_sends_not_answered(self, mock_get_amount_unanswered_messages):
+        mock_get_amount_unanswered_messages.return_value = 0
+        url = f'/api/get_amount_unanswered_messages'
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['amount'], 0)
+        mock_get_amount_unanswered_messages.assert_called_once()

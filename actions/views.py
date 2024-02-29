@@ -2,7 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Actions
 from .serializers import ActionsSerializer
-from .producer import publish
+from .producer import publish, get_amount_unanswered_messages
 # pylint: disable=no-member
 # pylint: disable=unused-argument
 
@@ -39,3 +39,6 @@ class ActionsViewSet(viewsets.ViewSet):
         actions = Actions.objects.get(id=pk)
         publish(actions)
         return Response(status=status.HTTP_201_CREATED)
+
+    def get_amount_unanswered_messages(self, request):
+        return Response({"amount":get_amount_unanswered_messages()},status=status.HTTP_200_OK)
