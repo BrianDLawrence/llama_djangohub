@@ -59,7 +59,7 @@ class ActionsViewSetTest(APITestCase):
     @patch('actions.views.get_amount_unanswered_messages')
     def test_check_sends_not_answered(self, mock_get_amount_unanswered_messages):
         mock_get_amount_unanswered_messages.return_value = 0
-        url = f'/api/get_amount_unanswered_messages'
+        url = '/api/get_amount_unanswered_messages'
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, status.HTTP_200_OK)
