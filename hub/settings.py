@@ -81,6 +81,9 @@ DATABASES = {
         'PASSWORD': get_env_variable('DB_PASSWORD'),
         'HOST': get_env_variable('DB_HOST'),
         'PORT': get_env_variable('DB_PORT'),
+        'OPTIONS': {
+            'sslmode': get_env_variable('DB_SSL'),
+        }
     }
 }
 

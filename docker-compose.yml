@@ -19,6 +19,7 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
       - DJANGO_DEBUG=${DJANGO_DEBUG}
+      - DB_SSL=${DB_SSL}
 
   db:
     image: postgres
