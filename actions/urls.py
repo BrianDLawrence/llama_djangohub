@@ -1,5 +1,5 @@
 from django.urls import path
-from actions.views import ActionsViewSet
+from actions.views import ActionsViewSet, ContextViewSet
 
 urlpatterns = [
     path('actions', ActionsViewSet.as_view({
@@ -16,5 +16,9 @@ urlpatterns = [
     })),
     path('get_amount_unanswered_messages', ActionsViewSet.as_view({
         'get':'get_amount_unanswered_messages'
+    })),
+    path('context', ContextViewSet.as_view({
+        'get':'get_all',
+        'post':'create'
     })),
 ]

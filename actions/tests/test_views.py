@@ -1,7 +1,7 @@
 from unittest.mock import patch
 from rest_framework import status
 from rest_framework.test import APITestCase
-from ..models import Actions
+from ..models import Actions, Context
 # pylint: disable=no-member
 # pylint: disable=invalid-name
 
@@ -16,6 +16,7 @@ class ActionsViewSetTest(APITestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["name"],"Test Action")
 
     def test_create_action(self):
         url = '/api/actions'
@@ -65,3 +66,22 @@ class ActionsViewSetTest(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['amount'], 0)
         mock_get_amount_unanswered_messages.assert_called_once()
+
+class ContextViewSetTest(APITestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.action = Context.objects.create(name="Test Context",description="Test Description")
+
+    def test_get_all_contexts(self):
+        url = '/api/context'
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]["name"],"Test Context")
+
+    def test_create_context(self):
+        url = '/api/context'
+        data = {"name": "New Context", "description": "New Description"}
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Context.objects.count(), 2)
