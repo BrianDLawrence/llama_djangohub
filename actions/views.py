@@ -35,6 +35,14 @@ class ActionsViewSet(viewsets.ViewSet):
         actions.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    def associatecontext(self, request, pk=None):
+        actions = Actions.objects.get(id=pk)
+        context = Context.objects.get(id=request.data["contextid"])
+        actions.context = context
+        actions.save()
+        serializer = ActionsSerializer(actions)
+        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)
+
     def send(self, request, pk=None):
         actions = Actions.objects.get(id=pk)
         publish(actions)
@@ -54,3 +62,15 @@ class ContextViewSet(viewsets.ViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data,status=status.HTTP_201_CREATED)
+
+    def destroy(self, request, pk=None):
+        context = Context.objects.get(id=pk)
+        context.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def update(self, request, pk=None):
+        context = Context.objects.get(id=pk)
+        serializer = ContextSerializer(instance=context,data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_202_ACCEPTED)

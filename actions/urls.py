@@ -21,4 +21,11 @@ urlpatterns = [
         'get':'get_all',
         'post':'create'
     })),
+    path('context/<str:pk>', ContextViewSet.as_view({
+        'put':'update',
+        'delete':'destroy'
+    })),
+    path('addcontextaction/<str:pk>', ActionsViewSet.as_view({
+        'put':'associatecontext',
+    })),
 ]

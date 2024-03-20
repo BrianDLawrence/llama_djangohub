@@ -10,6 +10,7 @@ class ActionsViewSetTest(APITestCase):
     def setUpTestData(cls):
         cls.action = Actions.objects.create(name="Test Action", description="Test Description",
                                             prompt="Test Prompt", success_criteria="New Success Criteria")
+        cls.context = Context.objects.create(name="Test Context",description="Test Description")
 
     def test_get_all_actions(self):
         url = '/api/actions'
@@ -67,10 +68,19 @@ class ActionsViewSetTest(APITestCase):
         self.assertEqual(response.data['amount'], 0)
         mock_get_amount_unanswered_messages.assert_called_once()
 
+    def test_associate_context_with_action(self):
+        url = f'/api/addcontextaction/{self.action.id}'
+        data = {"contextid": self.context.id}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.assertEqual(response.data["context"],self.context.id)
+        self.action.refresh_from_db()
+        self.assertEqual(self.action.context, self.context)
+
 class ContextViewSetTest(APITestCase):
     @classmethod
     def setUpTestData(cls):
-        cls.action = Context.objects.create(name="Test Context",description="Test Description")
+        cls.context = Context.objects.create(name="Test Context",description="Test Description")
 
     def test_get_all_contexts(self):
         url = '/api/context'
@@ -85,3 +95,18 @@ class ContextViewSetTest(APITestCase):
         response = self.client.post(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Context.objects.count(), 2)
+
+    def test_destroy_context(self):
+        url = f'/api/context/{self.context.id}'
+        response = self.client.delete(url)
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertEqual(Context.objects.count(), 0)
+
+    def test_update_context(self):
+        url = f'/api/context/{self.context.id}'
+        data = {"name": "Updated Context",
+                 "description": self.context.description}
+        response = self.client.put(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_202_ACCEPTED)
+        self.context.refresh_from_db()
+        self.assertEqual(self.context.name, "Updated Context")
